@@ -53,9 +53,15 @@ export interface Chapter {
   relationships: Array<{ id: string; type: string; attributes?: Record<string, unknown> }>;
 }
 
+// Prefer an English title whenever MangaDex has one — either on the main
+// title object or among the alt titles — before falling back to romaji/native.
 export function pickTitle(m: Pick<Manga, "attributes">): string {
-  const t = m.attributes.title;
-  return t.en || t["ja-ro"] || t.ja || t[Object.keys(t)[0]] || "Untitled";
+  const t = m.attributes.title ?? {};
+  if (t.en) return t.en;
+  const altEn = (m.attributes.altTitles ?? []).find((a) => a && a.en)?.en;
+  if (altEn) return altEn;
+  const altRomaji = (m.attributes.altTitles ?? []).find((a) => a && a["ja-ro"])?.["ja-ro"];
+  return t["ja-ro"] || altRomaji || t.ja || t[Object.keys(t)[0]] || "Untitled";
 }
 
 const HTML_ENTITIES: Record<string, string> = {
@@ -85,9 +91,16 @@ export function stripHtml(input: string): string {
     .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
     .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
     .replace(/&([a-z]+);/gi, (m, name) => HTML_ENTITIES[String(name).toLowerCase()] ?? m)
-    .replace(/\[([^\]]+)\]\((?:[^)]+)\)/g, "$1")
+    // Drop links entirely (markdown links, bare URLs) — synopses are full of
+    // "read it here" pointers that we don't want in the blurb.
+    .replace(/\[([^\]]*)\]\((?:[^)]*)\)/g, "")
     .replace(/\[\/?[a-z]+(?:=[^\]]+)?\]/gi, "")
+    .replace(/\b(?:https?:\/\/|www\.)\S+/gi, "")
     .replace(/\r/g, "")
+    // Clean up label-only leftovers such as "Official English release: " and
+    // lines that held nothing but a link.
+    .replace(/^[^\n]{0,40}[:\-–]\s*$/gm, "")
+    .replace(/[ \t]{2,}/g, " ")
     .replace(/[ \t]+\n/g, "\n")
     .replace(/\n{3,}/g, "\n\n")
     .trim();

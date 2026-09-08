@@ -133,7 +133,10 @@ export default function MangaDetailClient({ id }: { id: string }) {
           ) : (
             <ul className="mt-4 divide-y divide-[color:var(--rule)]">
               {chapters.map((c) => {
-                const external = c.attributes.externalUrl;
+                // Publisher URLs in the feed (kodansha.us/reader/… etc.) are
+                // frequently stale or region-locked. MangaDex's own chapter page
+                // is stable and always forwards to the current official reader.
+                const external = c.attributes.externalUrl ? `https://mangadex.org/chapter/${c.id}` : null;
                 const rowClass =
                   "group flex items-center justify-between gap-3 py-3 transition hover:bg-[color:var(--panel)]";
                 const inner = (
