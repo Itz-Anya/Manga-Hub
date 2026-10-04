@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   description:
     "Manga Hub is an indie manga reader with an editorial, ink-and-paper aesthetic. Browse, bookmark, and read.",
   authors: [{ name: "Anya & Murali" }],
+  verification: {
+  google: "DnbMYj8vawrOtL3_mAD9QQEMUMVtU2rveaOSlPR4X98",
+},
   icons: { icon: "https://i.ibb.co/Gv9rZ4J3/file-00000000f5cc7207bf95c73242084d2c.jpg" },
   manifest: "/manifest.webmanifest",
   applicationName: "Manga Hub",
