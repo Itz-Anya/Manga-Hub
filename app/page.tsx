@@ -104,7 +104,7 @@ export default function DiscoverPage() {
         <div className="mx-auto max-w-[1400px] px-5 py-6 md:px-8 md:py-10">
           <figure className="panel-border relative overflow-hidden bg-[color:var(--panel)]">
             <img
-              src="https://anya-file-host.vercel.app/cznc5nha4b"
+              src="https://anya-file-host.vercel.app/1793190827446.png"
               alt="Manga Hub"
               className="block h-auto w-full object-cover"
               referrerPolicy="no-referrer"
