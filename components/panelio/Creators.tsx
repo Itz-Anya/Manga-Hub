@@ -197,7 +197,7 @@ function Languages({ items }: { items: GithubProfile["languages"] }) {
 }
 
 const buttonBase =
-  "inline-flex items-center justify-center gap-2 border-[1.5px] px-4 py-2.5 font-[family-name:var(--font-display)] text-xs uppercase tracking-widest transition";
+  "inline-flex min-w-0 items-center justify-center gap-2 border-[1.5px] px-4 py-2.5 font-[family-name:var(--font-display)] text-xs uppercase tracking-widest transition";
 
 function CreatorCard({ creator, profile, index }: { creator: Creator; profile?: GithubProfile | null; index: number }) {
   const [ref, live] = useReveal();
@@ -212,13 +212,13 @@ function CreatorCard({ creator, profile, index }: { creator: Creator; profile?: 
     >
       <CreatorBanner src={creator.banner} accent={creator.accent} />
 
-      <div className="px-5 pb-6 md:px-7 md:pb-7">
+      <div className="px-4 pb-6 sm:px-5 md:px-7 md:pb-7">
         <div className="-mt-12 md:-mt-14">
           <CreatorPhoto src={creator.img} alt={creator.plain} accent={creator.accent} />
         </div>
 
         <h3
-          className="mt-4 font-[family-name:var(--font-display)] text-3xl tracking-wide text-[color:var(--paper)]"
+          className="mt-4 font-[family-name:var(--font-display)] break-words text-2xl tracking-wide text-[color:var(--paper)] sm:text-3xl"
           aria-label={creator.plain}
         >
           <span aria-hidden="true">{creator.name}</span>
@@ -268,7 +268,7 @@ function CreatorCard({ creator, profile, index }: { creator: Creator; profile?: 
           </ul>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2">
+        <div className="mt-6 grid grid-cols-1 gap-2 min-[420px]:grid-cols-3 lg:flex lg:flex-wrap">
           <a
             href={profileUrl}
             target="_blank"
@@ -302,7 +302,7 @@ function CreatorCard({ creator, profile, index }: { creator: Creator; profile?: 
 
 export function Creators({ profiles = {} }: { profiles?: Record<string, GithubProfile | null> }) {
   return (
-    <section className="mt-24" aria-labelledby="creators-h">
+    <section className="mt-16 md:mt-20" aria-labelledby="creators-h">
       <div className="text-center">
         <p className="font-[family-name:var(--font-display)] text-xs uppercase tracking-[0.4em] text-[color:var(--vermilion)]">
           The team
@@ -313,22 +313,19 @@ export function Creators({ profiles = {} }: { profiles?: Record<string, GithubPr
         >
           Creators
         </h2>
-        <p className="mx-auto mt-3 max-w-xl font-[family-name:var(--font-serif)] text-lg text-[color:var(--paper-dim)]">
-          Two people build and run Manga Hub. If you find a bug or have an idea, say hi on GitHub or Telegram.
-        </p>
       </div>
 
-      <div className="relative mt-10">
+      <div className="relative mt-8 overflow-hidden md:mt-10">
         <span
-          className="pointer-events-none absolute -left-20 top-10 h-64 w-64 rounded-full bg-fuchsia-500/10 blur-3xl"
+          className="pointer-events-none absolute left-0 top-10 h-48 w-48 md:h-64 md:w-64 rounded-full bg-fuchsia-500/10 blur-3xl"
           aria-hidden="true"
         />
         <span
-          className="pointer-events-none absolute -right-20 bottom-24 h-64 w-64 rounded-full bg-orange-500/10 blur-3xl"
+          className="pointer-events-none absolute right-0 bottom-24 h-48 w-48 md:h-64 md:w-64 rounded-full bg-orange-500/10 blur-3xl"
           aria-hidden="true"
         />
 
-        <div className="relative grid gap-6 md:grid-cols-2">
+        <div className="relative grid grid-cols-1 gap-6 lg:grid-cols-2">
           {CREATORS.map((c, i) => (
             <CreatorCard key={c.key} creator={c} profile={profiles[c.handle]} index={i} />
           ))}
