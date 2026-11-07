@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+:root {
+  --ink: oklch(0.14 0.005 250);
+  --paper: oklch(0.95 0.012 85);
+  --paper-dim: oklch(0.72 0.015 85);
+  --paper-faint: oklch(0.42 0.01 85);
+  --panel: oklch(0.18 0.006 250);
+  --rule: oklch(0.28 0.008 250);
+  --vermilion: oklch(0.58 0.22 32);
+
+  --font-display: "Oswald", "Bebas Neue", "Impact", sans-serif;
+  --font-serif: "Instrument Serif", "Times New Roman", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-panel: var(--panel);
+  --color-rule: var(--rule);
+  --color-vermilion: var(--vermilion);
+  --font-display: var(--font-display);
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+}
+
+* { border-color: var(--rule); }
+
+html, body {
+  background-color: #0d0d0f;
+  color: var(--paper);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@utility grain {
+  position: relative;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.94  0 0 0 0 0.92  0 0 0 0.8 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+}
+
+@utility halftone {
+  background-image: radial-gradient(rgba(242,240,235,0.08) 1px, transparent 1.2px);
+  background-size: 6px 6px;
+}
+
+@utility panel-border {
+  border: 1px solid var(--rule);
+}
+
+@utility caption-box {
+  border: 1.5px solid var(--paper);
+  background: var(--ink);
+  box-shadow: 4px 4px 0 0 var(--vermilion);
+}
+
+@utility tilt-hover {
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 400ms ease;
+  will-change: transform;
+  &:hover {
+    transform: translateY(-4px) rotate(-1deg) scale(1.02);
+    filter: brightness(1.05) contrast(1.05);
+  }
+}
+
+@keyframes page-in {
+  0% { opacity: 0; transform: perspective(1400px) rotateY(-25deg) translateX(60px); transform-origin: left center; }
+  100% { opacity: 1; transform: perspective(1400px) rotateY(0) translateX(0); }
+}
+@utility page-flip-in { animation: page-in 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+@keyframes skeleton-panel {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@utility skeleton-manga {
+  background: linear-gradient(110deg, var(--panel) 30%, oklch(0.24 0.008 250) 50%, var(--panel) 70%);
+  background-size: 200% 100%;
+  animation: skeleton-panel 1.6s ease-in-out infinite;
+}
+
+::selection { background: var(--vermilion); color: var(--paper); }
+
+.panelio-cursor {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><rect x='2' y='2' width='24' height='24' fill='none' stroke='%23f2f0eb' stroke-width='1.5'/><rect x='6' y='6' width='16' height='16' fill='%23c8432b'/></svg>") 14 14, pointer;
+}
