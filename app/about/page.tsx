@@ -2,7 +2,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Compass, BookOpen, BookMarked, Smartphone } from "lucide-react";
 import { Layout } from "@/components/panelio/Layout";
-import { Creators, CREATORS } from "@/components/panelio/Creators";
+import { Creators } from "@/components/panelio/Creators";
+import { CREATORS } from "@/lib/creators";
 import { getGithubProfile } from "@/lib/github";
 
 export const metadata: Metadata = {
